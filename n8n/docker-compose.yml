@@ -7,6 +7,8 @@ services:
       - N8N_HOST=${N8N_HOST}
       - N8N_PORT=5678
       - N8N_PROTOCOL=https
+      - N8N_ENCRYPTION_KEY=${N8N_KEY}
+      - N8N_USER_MANAGEMENT_JWT_SECRET=${N8N_SECRET}
       - WEBHOOK_URL=https://${N8N_HOST}/
       - GENERIC_TIMEZONE=Europe/Lisbon
     volumes:
