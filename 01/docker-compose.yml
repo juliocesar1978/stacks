@@ -1,9 +1,30 @@
+version: "3.8"
 services:
-
-volumes:
-  n8n_data:
-    external: false
+  antigravity-ide:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: antigravity_web
+    security_opt:
+      - seccomp:unconfined # Necessário para o motor Chromium do Antigravity
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Lisbon
+      - SUBFOLDER=/
+      - TITLE=Antigravity_IDE # Título da janela no browser
+    volumes:
+      # Configurações do ambiente gráfico e da app
+      - /servidor/config/antigravity:/config
+      # Onde os teus ficheiros de código/trabalho vão estar (Rclone Mounts)
+      - /servidor/mnt/remote:/servidor/mnt/remote
+    ports:
+      - 3000:3000 # Porta para acederes via Browser ou NPM
+    shm_size: "2gb" # Evita que o editor encrave por falta de memória partilhada
+    restart: unless-stopped
+    networks:
+      - proxy_network # Ligação ao teu Nginx Proxy Manager
 
 networks:
-  web_network:
-    external: true
+  proxy_network:
+    external: true # Assume que já criaste uma rede para o NPM
