@@ -1,9 +1,9 @@
 version: "3.8"
 services:
   antigravity-ide:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    #build:
+    #  context: .
+    #  dockerfile: Dockerfile
     container_name: antigravity_web
     security_opt:
       - seccomp:unconfined # Necessário para o motor Chromium do Antigravity
