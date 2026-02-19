@@ -13,8 +13,8 @@ services:
       - TITLE=Antigravity_IDE
       - PASSWORD=${WEBTOP_PASSWORD}  # O Docker vai buscar este valor ao Portainer
     volumes:
-      - /servidor/config/webtop:/config
-      - ${mnt}:/servidor/mnt/remote # Teus discos Rclone
+      - ${PATH_CONFIG}:/config
+      - ${PATH_REMOTE}:/servidor/mnt/remote
     ports:
       - 3000:3000
     shm_size: "2gb" # Previne crashes no VS Code/Antigravity
