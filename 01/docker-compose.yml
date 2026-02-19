@@ -11,6 +11,7 @@ services:
       - TZ=Europe/Lisbon
       - SUBFOLDER=/ 
       - TITLE=Antigravity_IDE
+      - PASSWORD=${WEBTOP_PASSWORD}  # O Docker vai buscar este valor ao Portainer
     volumes:
       - /servidor/config/webtop:/config
       - /servidor/mnt/remote:/servidor/mnt/remote # Teus discos Rclone
