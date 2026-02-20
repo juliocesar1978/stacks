@@ -55,7 +55,8 @@ services:
       - USER_ID=1000
       - GROUP_ID=1000
       - PAPERLESS_URL=${URL_BASE}
-
+      - PAPERLESS_CSRF_TRUSTED_ORIGINS=${URL_BASE} # Adiciona esta linha
+      - PAPERLESS_OCR_LANGUAGES=por # Garante que o pacote é instalado
 networks:
   web_network:
     external: true
