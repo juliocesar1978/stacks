@@ -49,6 +49,7 @@ services:
       - PAPERLESS_DBPASS=${DB_PASSWORD}
       - PAPERLESS_DBNAME=${DB_NAME}
       - PAPERLESS_OCR_LANGUAGE=por+eng
+      - PAPERLESS_OCR_LANGUAGES=por
       - PAPERLESS_TIME_ZONE=Europe/Lisbon
       - PAPERLESS_OCR_STRATEGY=clean
       - USER_ID=1000
