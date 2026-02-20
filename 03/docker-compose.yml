@@ -1,9 +1,12 @@
-services:
-
-volumes:
-  n8n_data:
-    external: false
-
-networks:
-  web_network:
-    external: true
+duckdns:
+    image: lscr.io/linuxserver/duckdns:latest
+    container_name: duckdns
+    networks:
+      - web_network
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Lisbon
+      - SUBDOMAINS=${domain}
+      - TOKEN=${token}
+    restart: always
