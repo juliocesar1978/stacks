@@ -1,9 +1,63 @@
 services:
+  broker:
+    image: docker.io/library/redis:7
+    container_name: paperless_redis
+    restart: always
+    networks:
+      - web_network
+    volumes:
+      - redis_data:/data
 
-volumes:
-  n8n_data:
-    external: false
+  db:
+    image: docker.io/library/postgres:16
+    container_name: paperless_db
+    restart: always
+    networks:
+      - web_network
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=${DB_NAME}
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+
+  webserver:
+    image: ghcr.io/paperless-ngx/paperless-ngx:latest
+    container_name: paperless_webserver
+    restart: always
+    depends_on:
+      - db
+      - broker
+    ports:
+      - "${PORT}:8000"
+    networks:
+      - web_network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    volumes:
+      - ${PATH_DATA}:/usr/src/paperless/data
+      - ${PATH_MEDIA}:/usr/src/paperless/media
+      - ${PATH_EXPORT}:/usr/src/paperless/export
+      - ${PATH_CONSUME}:/usr/src/paperless/consume
+    environment:
+      - PAPERLESS_REDIS=redis://paperless_redis:6379
+      - PAPERLESS_DBHOST=paperless_db
+      - PAPERLESS_DBUSER=${DB_USER}
+      - PAPERLESS_DBPASS=${DB_PASSWORD}
+      - PAPERLESS_DBNAME=${DB_NAME}
+      - PAPERLESS_OCR_LANGUAGE=por+eng
+      - PAPERLESS_TIME_ZONE=Europe/Lisbon
+      - PAPERLESS_OCR_STRATEGY=clean
+      - USER_ID=1000
+      - GROUP_ID=1000
 
 networks:
   web_network:
     external: true
+
+volumes:
+  redis_data:
+  pgdata:
