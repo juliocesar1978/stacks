@@ -57,6 +57,7 @@ services:
       - PAPERLESS_URL=${URL_BASE}
       - PAPERLESS_CSRF_TRUSTED_ORIGINS=${URL_BASE} # Adiciona esta linha
       - PAPERLESS_OCR_LANGUAGES=por # Garante que o pacote é instalado
+      - PAPERLESS_TRUSTED_PROXIES=${PAPERLESS_TRUSTED_PROXIES}
 networks:
   web_network:
     external: true
