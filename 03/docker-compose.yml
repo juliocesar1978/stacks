@@ -1,4 +1,7 @@
-duckdns:
+services:
+  # ... (serviços broker, db e webserver que já tinhas) ...
+
+  duckdns:
     image: lscr.io/linuxserver/duckdns:latest
     container_name: duckdns
     networks:
@@ -10,3 +13,11 @@ duckdns:
       - SUBDOMAINS=${domain}
       - TOKEN=${token}
     restart: always
+
+networks:
+  web_network:
+    external: true
+
+volumes:
+  redis_data:
+  pgdata:
