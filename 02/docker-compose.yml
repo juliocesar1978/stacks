@@ -53,6 +53,7 @@ services:
       - PAPERLESS_OCR_STRATEGY=clean
       - USER_ID=1000
       - GROUP_ID=1000
+      - PAPERLESS_URL=${URL_BASE}
 
 networks:
   web_network:
