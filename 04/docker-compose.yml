@@ -1,8 +1,26 @@
+version: "2.1"
 services:
-
-volumes:
-  n8n_data:
-    external: false
+  webtop:
+    image: lscr.io/linuxserver/webtop:ubuntu-xfce
+    container_name: ag2
+    security_opt:
+      - seccomp:unconfined # Necessário para o motor Chromium do Antigravity
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Lisbon
+      - SUBFOLDER=/ 
+      - TITLE=AG2
+      - PASSWORD=${WEBTOP_PASSWORD}  # O Docker vai buscar este valor ao Portainer
+    volumes:
+      - ${PATH_CONFIG}:/config
+      - ${PATH_REMOTE}:/servidor/mnt/remote
+    #ports:
+    # - 3005:3000
+    shm_size: "2gb" # Previne crashes no VS Code/Antigravity
+    restart: unless-stopped
+    networks:
+      - web_network
 
 networks:
   web_network:
