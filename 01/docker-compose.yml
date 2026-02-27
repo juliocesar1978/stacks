@@ -25,3 +25,7 @@ services:
 networks:
   web_network:
     external: true
+# Variaveis usadas:
+# User variables
+# WEBTOP_PASSWORD, PATH_CONFIG, PATH_REMOTE
+# Estas variaveis foram introduzidas no ambiente grafico do portainer
