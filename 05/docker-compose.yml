@@ -14,6 +14,7 @@ services:
     volumes:
       - ${UPLOAD_LOCATION}:/usr/src/app/upload
       - /etc/localtime:/etc/localtime:ro
+      - ${REMOTE}:${REMOTE}
     ports:
       - 2283:2283
     depends_on:
@@ -67,3 +68,4 @@ networks:
 # DB_DATABASE_NAME:
 # UPLOAD_LOCATION:  (pasta onde queres guardar as fotos).
 # DB_DATA_LOCATION: (pasta onde queres processar as fotos).
+# REMOTE: Pasta de partilha
