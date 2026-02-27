@@ -59,10 +59,12 @@ services:
 
 volumes:
   model-cache:
-
+  
 networks:
   web_network:
     external: true
+  immich_internal:      # Adiciona estas duas linhas
+    driver: bridge      # Para o Docker criar a rede privada da stack
 # Variaveis usadas
 # DB_PASSWORD: (escolhe uma forte)
 # DB_USERNAME:
