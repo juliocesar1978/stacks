@@ -14,7 +14,7 @@ services:
     volumes:
       - ${UPLOAD_LOCATION}:/usr/src/app/upload
       - /etc/localtime:/etc/localtime:ro
-      - ${REMOTE}:${REMOTE}
+      - ${REMOTE}:/mnt/remote:ro # Montado como Read-Only (ro) para segurança
     ports:
       - 2283:2283
     depends_on:
@@ -26,7 +26,6 @@ services:
 
   immich-machine-learning:
     container_name: immich_machine_learning
-    # Versão otimizada para ARM64
     image: ghcr.io/immich-app/immich-machine-learning:release
     volumes:
       - model-cache:/cache
@@ -36,14 +35,15 @@ services:
 
   redis:
     container_name: immich_redis
-    image: docker.io/valkey/valkey:9
+    image: docker.io/valkey/valkey:8 # Versão estável e leve
     networks:
       - web_network
     restart: always
 
   database:
     container_name: immich_postgres
-    image: ghcr.io/immich-app/postgres:16-vector
+    # Mudança aqui para garantir que o manifesto é encontrado em ARM64
+    image: tensorchord/pgvecto-rs:pg16-v0.2.0 
     environment:
       - POSTGRES_PASSWORD=${DB_PASSWORD}
       - POSTGRES_USER=${DB_USERNAME}
@@ -51,7 +51,7 @@ services:
       - POSTGRES_INITDB_ARGS=--data-checksums
     volumes:
       - ${DB_DATA_LOCATION}:/var/lib/postgresql/data
-    shm_size: 256mb # Aumentado para o processamento de vetores de imagem
+    shm_size: 256mb
     networks:
       - web_network
     restart: always
