@@ -7,9 +7,9 @@ services:
       - PUID=1000
       - PGID=1000
       - TZ=Etc/UTC
-      - TRANSMISSION_WEB_HOME= ${WEB_HOME}
-      - USER= ${USER}
-      - PASS= ${PASS}
+      - TRANSMISSION_WEB_HOME=${WEB_HOME}
+      - USER=${USER}
+      - PASS=${PASS}
       #- WHITELIST= #optional
       #- PEERPORT= #optional
       #- HOST_WHITELIST= #optional
@@ -18,7 +18,7 @@ services:
       - ${DOWNLOADS}:/downloads #optional
       - ${WATCH}:/watch #optional
     ports:
-      - 9091:9091
-      - 51413:51413
-      - 51413:51413/udp
+#      - 9091:9091
+#      - 51413:51413
+#      - 51413:51413/udp
     restart: unless-stopped
