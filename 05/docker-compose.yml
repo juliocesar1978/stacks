@@ -21,7 +21,8 @@ services:
       - redis
       - database
     networks:
-      - web_network
+      - web_network    # Para falar com o NPM
+      - immich_internal # Para falar com o Postgres e Redis
     restart: always
 
   immich-machine-learning:
@@ -30,14 +31,14 @@ services:
     volumes:
       - model-cache:/cache
     networks:
-      - web_network
+      - immich_internal # Só precisa de falar com o servidor
     restart: always
 
   redis:
     container_name: immich_redis
     image: docker.io/valkey/valkey:8 # Versão estável e leve
     networks:
-      - web_network
+      - immich_internal # Isolado do exterior
     restart: always
 
   database:
@@ -53,7 +54,7 @@ services:
       - ${DB_DATA_LOCATION}:/var/lib/postgresql/data
     shm_size: 256mb
     networks:
-      - web_network
+      - immich_internal # Isolado do exterior
     restart: always
 
 volumes:
