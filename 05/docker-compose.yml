@@ -31,19 +31,18 @@ services:
     volumes:
       - model-cache:/cache
     networks:
-      - immich_internal # Só precisa de falar com o servidor
+      - immich_internal
     restart: always
 
   redis:
     container_name: immich_redis
-    image: docker.io/valkey/valkey:8 # Versão estável e leve
+    image: docker.io/valkey/valkey:8
     networks:
-      - immich_internal # Isolado do exterior
+      - immich_internal
     restart: always
 
   database:
     container_name: immich_postgres
-    # Mudança aqui para garantir que o manifesto é encontrado em ARM64
     image: tensorchord/pgvecto-rs:pg16-v0.2.0 
     environment:
       - POSTGRES_PASSWORD=${DB_PASSWORD}
@@ -54,17 +53,17 @@ services:
       - ${DB_DATA_LOCATION}:/var/lib/postgresql/data
     shm_size: 256mb
     networks:
-      - immich_internal # Isolado do exterior
+      - immich_internal
     restart: always
 
 volumes:
   model-cache:
-  
+
 networks:
   web_network:
     external: true
-  immich_internal:      # Adiciona estas duas linhas
-    driver: bridge      # Para o Docker criar a rede privada da stack
+  immich_internal:
+    driver: bridge
 # Variaveis usadas
 # DB_PASSWORD: (escolhe uma forte)
 # DB_USERNAME:
