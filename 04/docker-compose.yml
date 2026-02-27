@@ -1,4 +1,4 @@
-version: "0.1"
+version: "3.9"  # Use a versão 3.9 para melhor compatibilidade com Stacks do Portainer
 services:
   transmission:
     image: lscr.io/linuxserver/transmission:latest
@@ -6,19 +6,16 @@ services:
     environment:
       - PUID=1000
       - PGID=1000
-      - TZ=Etc/UTC
-      - TRANSMISSION_WEB_HOME=${WEB_HOME}
+      - TZ=Europe/Lisbon  # Ajustado para o teu fuso horário
+      - TRANSMISSION_WEB_HOME=${WEB_HOME} # Removi o espaço após o "="
       - USER=${USER}
       - PASS=${PASS}
-      #- WHITELIST= #optional
-      #- PEERPORT= #optional
-      #- HOST_WHITELIST= #optional
     volumes:
-      - ${PATH}:/config
-      - ${DOWNLOADS}:/downloads #optional
-      - ${WATCH}:/watch #optional
+      - ${PATH_CONFIG}:/config      # Evita usar apenas ${PATH} pois é uma variável de sistema reservada
+      - ${PATH_DOWNLOADS}:/downloads
+      - ${PATH_WATCH}:/watch        # Pasta onde colocas um ficheiro .torrent e ele saca sozinho
     ports:
-#      - 9091:9091
-#      - 51413:51413
-#      - 51413:51413/udp
+      - 9091:9091
+      - 51413:51413
+      - 51413:51413/udp
     restart: unless-stopped
