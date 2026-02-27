@@ -13,8 +13,9 @@ services:
       - PASS=${PASS}
     volumes:
       - ${PATH_CONFIG}:/config      # Evita usar apenas ${PATH} pois é uma variável de sistema reservada
-      - ${PATH_DOWNLOADS}:/downloads
+      - ${PATH_DOWNLOADS}:/downloads/complete
       - ${PATH_WATCH}:/watch        # Pasta onde colocas um ficheiro .torrent e ele saca sozinho
+      - ${PATH_TEMP}:/downloads/incomplete
     ports:
       - 9091:9091
       - 51413:51413
