@@ -1,5 +1,6 @@
 # stacks
-A repository for use with portainer, where I'll put my files:<br/>
+My repository for use with portainer, where I'll put my files:<br/>
+O meu repositorio onde arquivo os ficheiros, para desplotar no portainer:<br/>
 <ul>
   <li><a href="./01/docker-compose.yml">01 - Antigravity</li>
   <li><a href="./02/docker-compose.yml">02 - Paperless-ngx</li>
