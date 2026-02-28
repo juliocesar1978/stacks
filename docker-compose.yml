@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  npm:
+    container_name: nginx-proxy-manager
+    image: 'jc21/nginx-proxy-manager:latest'
+    restart: always
+    ports:
+      # Portas padrão para tráfego web
+      - '80:80'   # HTTP
+      - '443:443' # HTTPS
+      - '81:81'   # Painel de Administração
+    environment:
+      # Podes mudar para MySQL externo se preferires, 
+      # mas o SQLite interno é super estável para este uso.
+      DB_SQLITE_FILE: "/data/database.sqlite"
+    volumes:
+      - '${NPM_DATA_PATH}:/data'
+      - '${NPM_LETSENCRYPT_PATH}:/etc/letsencrypt'
+    networks:
+      - web_network
+
+networks:
+  web_network:
+    external: true
