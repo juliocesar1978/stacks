@@ -1,9 +1,65 @@
-services:
+version: "3.9"
 
-volumes:
-  n8n_data:
-    external: false
+services:
+  photoprism:
+    container_name: photoprism
+    image: photoprism/photoprism:latest
+    depends_on:
+      - mariadb
+    security_opt:
+      - seccomp:unconfined
+      - apparmor:unconfined
+    environment:
+      # --- Configuração de Acesso ---
+      PHOTOPRISM_ADMIN_PASSWORD: "${ADMIN_PASSWORD}"
+      PHOTOPRISM_SITE_URL: "${SITE_URL}"
+      PHOTOPRISM_HTTP_PORT: 2342
+      
+      # --- Performance e Limites ---
+      PHOTOPRISM_ORIGINALS_LIMIT: 1000000 
+      PHOTOPRISM_READONLY: "false" # Importante para MOVER ficheiros para o Rclone
+      
+      # --- Base de Dados ---
+      PHOTOPRISM_DATABASE_DRIVER: "mysql"
+      PHOTOPRISM_DATABASE_SERVER: "photoprism_db:3306"
+      PHOTOPRISM_DATABASE_NAME: "photoprism"
+      PHOTOPRISM_DATABASE_USER: "photoprism"
+      PHOTOPRISM_DATABASE_PASSWORD: "${DB_PASSWORD}"
+    volumes:
+      # Onde ficam as miniaturas e cache (No teu disco de 100GB)
+      - "${STORAGE_PATH}:/photoprism/storage"
+      
+      # A tua biblioteca final (No Rclone - ex: fotos2)
+      - "${ORIGINALS_PATH}:/photoprism/originals"
+      
+      # Pasta de entrada para processar Takeouts/Fotos Novas
+      - "${IMPORT_PATH}:/photoprism/import"
+    networks:
+      - web_network
+      - photoprism_internal
+    restart: always
+
+  mariadb:
+    container_name: photoprism_db
+    image: mariadb:11
+    security_opt:
+      - seccomp:unconfined
+      - apparmor:unconfined
+    environment:
+      MARIADB_AUTO_UPGRADE: "1"
+      MARIADB_DATABASE: "photoprism"
+      MARIADB_USER: "photoprism"
+      MARIADB_PASSWORD: "${DB_PASSWORD}"
+      MARIADB_ROOT_PASSWORD: "${DB_PASSWORD}"
+    volumes:
+      # Base de dados dentro do disco de 100GB para máxima velocidade
+      - "${STORAGE_PATH}/database:/var/lib/mysql"
+    networks:
+      - photoprism_internal
+    restart: always
 
 networks:
   web_network:
     external: true
+  photoprism_internal:
+    driver: bridge
