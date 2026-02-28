@@ -1,8 +1,30 @@
-services:
+version: "3.9"
 
-volumes:
-  n8n_data:
-    external: false
+services:
+  czkawka:
+    container_name: czkawka
+    image: jlesage/czkawka:latest
+    ports:
+      - 5800:5800
+    environment:
+      - TZ=Europe/Lisbon
+      - KEEP_APP_RUNNING=1
+      - DISPLAY_WIDTH=1280
+      - DISPLAY_HEIGHT=720
+      - SECURE_CONNECTION=1 # Ativa HTTPS básico se quiseres
+      - APP_PASSWORD=${CZKAWKA_PASS} # Password para entrar na interface
+    volumes:
+      # Onde estão os teus originais (Rclone)
+      - "${ORIGINALS_PATH}:/mnt/originals"
+      
+      # Onde tens os Takeouts para limpar (Import)
+      - "${IMPORT_PATH}:/mnt/import"
+      
+      # Configurações do app (Disco 100GB)
+      - "${CZKAWKA_CONFIG_PATH}:/config"
+    networks:
+      - web_network
+    restart: always
 
 networks:
   web_network:
