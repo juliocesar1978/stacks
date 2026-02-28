@@ -2,7 +2,7 @@
 My repository for use with portainer, where I'll put my files:<br/>
 O meu repositorio onde arquivo os ficheiros, para desplotar no portainer:<br/>
 <ul>
-  <li><a href="./00/docker-compose.yml">00 - Nginx Proxy Manager</li>
+  <li><a href="docker-compose.yml">00 - Nginx Proxy Manager</li>
   <li><a href="./01/docker-compose.yml">01 - Antigravity</li>
   <li><a href="./02/docker-compose.yml">02 - Paperless-ngx</li>
   <li><a href="./03/docker-compose.yml">03 - DuckDNS</li>
