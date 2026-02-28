@@ -13,7 +13,7 @@ services:
       - IMMICH_VERSION=release
     volumes:
       - ${UPLOAD_LOCATION}:/usr/src/app/upload
-      - ${UPLOAD_LOCATION}:/data
+      - ${DB_DATA_LOCATION}:/data
       - /etc/localtime:/etc/localtime:ro
       - ${REMOTE}:/mnt/remote:ro # Montado como Read-Only (ro) para segurança
     ports:
