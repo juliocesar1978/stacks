@@ -7,6 +7,7 @@ O meu repositorio onde arquivo os ficheiros, para desplotar no portainer:<br/>
   <li><a href="./03/docker-compose.yml">03 - DuckDNS</li>
   <li><a href="./04/docker-compose.yml">04 - Tranmission</li>
   <li><a href="./05/docker-compose.yml">05 - Immich</a></li>
-  <li><a href="./06/docker-compose.yml">05 - Photoprism</a></li>
+  <li><a href="./06/docker-compose.yml">06 - Photoprism</a></li>
+  <li><a href="./06/docker-compose.yml">07 - czkawka</a></li>
     
 </ul>
