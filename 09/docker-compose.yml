@@ -6,7 +6,7 @@ services:
     volumes:
       - ${DB}:/var/lib/postgresql/data
     environment:
-      - POSTGRES_DB=${dado}
+      - POSTGRES_DB=nextcloud-db
       - POSTGRES_USER=${USER}
       - POSTGRES_PASSWORD=${PASSWORD}
     networks:
@@ -25,7 +25,7 @@ services:
       - ${REMOTE}:/servidor/mnt/remote
     environment:
       - POSTGRES_HOST=nextcloud-db
-      - POSTGRES_DB=nextcloud
+      - POSTGRES_DB=nextcloud-db
       - POSTGRES_USER=${USER}
       - POSTGRES_PASSWORD=${PASSWORD}
       - NEXTCLOUD_ADMIN_USER=${USER}
