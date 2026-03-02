@@ -4,7 +4,7 @@ services:
     container_name: nextcloud-db
     restart: always
     volumes:
-      - ${DB}:/var/lib/postgresql/data
+      - ${DB_PATH}:/var/lib/postgresql/data
     environment:
       - POSTGRES_DB=nextcloud-db
       - POSTGRES_USER=${USER}
