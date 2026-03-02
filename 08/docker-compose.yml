@@ -11,5 +11,14 @@ services:
       - TZ=Europe/Lisbon
     volumes:
       - ${DATA}:/config
+    # Exposta para o NPM
     expose:
       - "80"
+    # Se quiseres testar logo, acede a http://IP-DA-ORACLE:8888
+    ports:
+      - "8888:80"
+
+networks:
+  web_network:
+    name: web_network
+    driver: bridge
