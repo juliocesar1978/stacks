@@ -4,11 +4,11 @@ services:
     container_name: nextcloud-db
     restart: always
     volumes:
-      - nextcloud_db_data:/var/lib/postgresql/data
+      - ${DB}:/var/lib/postgresql/data
     environment:
-      - POSTGRES_DB=nextcloud
-      - POSTGRES_USER=nextcloud
-      - POSTGRES_PASSWORD=uma_password_segura_aqui
+      - POSTGRES_DB=${dado}
+      - POSTGRES_USER=${USER}
+      - POSTGRES_PASSWORD=${PASSWORD}
     networks:
       - web_network
 
@@ -26,11 +26,11 @@ services:
     environment:
       - POSTGRES_HOST=nextcloud-db
       - POSTGRES_DB=nextcloud
-      - POSTGRES_USER=nextcloud
-      - POSTGRES_PASSWORD=uma_password_segura_aqui
-      - NEXTCLOUD_ADMIN_USER=admin
-      - NEXTCLOUD_ADMIN_PASSWORD=admin_pass_segura
-      - NEXTCLOUD_TRUSTED_DOMAINS=cloud.teudominio.pt
+      - POSTGRES_USER=${USER}
+      - POSTGRES_PASSWORD=${PASSWORD}
+      - NEXTCLOUD_ADMIN_USER=${USER}
+      - NEXTCLOUD_ADMIN_PASSWORD=${PASSWORD}
+      - NEXTCLOUD_TRUSTED_DOMAINS=${URL}
     expose:
       - "80"
     ports:
