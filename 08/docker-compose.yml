@@ -1,19 +1,22 @@
 services:
   snappymail:
-    image: ajanvier/snappymail:latest
+    # Esta imagem é mantida e testada especificamente para ARM64
+    image: lscr.io/linuxserver/snappymail:latest
     container_name: snappymail
     restart: always
     networks:
       - web_network
-    volumes:
-      - ${DATA}:/var/www/snappymail/data
     environment:
+      - PUID=1000
+      - PGID=1000
       - TZ=Europe/Lisbon
-      - UPLOAD_MAX_SIZE=50M
-      - MEMORY_LIMIT=256M
-    # Alterado de expose para ports para teste
-    ports:
-      - "8888:80" 
+    volumes:
+      - ${DATA}:/config
+    expose:
+      - "80"
+    # Se quiseres testar fora do NPM primeiro, descomenta as 2 linhas abaixo:
+    # ports:
+    #   - "8888:80"
 
 networks:
   web_network:
