@@ -1,9 +1,44 @@
 services:
+  nextcloud-db:
+    image: postgres:15-alpine
+    container_name: nextcloud-db
+    restart: always
+    volumes:
+      - nextcloud_db_data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=nextcloud
+      - POSTGRES_USER=nextcloud
+      - POSTGRES_PASSWORD=uma_password_segura_aqui
+    networks:
+      - web_network
 
-volumes:
-  n8n_data:
-    external: false
+  nextcloud:
+    image: nextcloud:latest
+    container_name: nextcloud
+    restart: always
+    depends_on:
+      - nextcloud-db
+    networks:
+      - web_network
+    volumes:
+      - ${DATA}:/var/www/html
+      - ${REMOTE}:/servidor/mnt/remote
+    environment:
+      - POSTGRES_HOST=nextcloud-db
+      - POSTGRES_DB=nextcloud
+      - POSTGRES_USER=nextcloud
+      - POSTGRES_PASSWORD=uma_password_segura_aqui
+      - NEXTCLOUD_ADMIN_USER=admin
+      - NEXTCLOUD_ADMIN_PASSWORD=admin_pass_segura
+      - NEXTCLOUD_TRUSTED_DOMAINS=cloud.teudominio.pt
+    expose:
+      - "80"
+    ports:
+      - "8081:80"
 
 networks:
   web_network:
     external: true
+
+volumes:
+  nextcloud_db_data:
