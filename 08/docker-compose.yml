@@ -1,24 +1,21 @@
 services:
   snappymail:
-    image: djfarrelly/snappymail:latest
+    image: ajanvier/snappymail:latest
     container_name: snappymail
     restart: always
     networks:
       - web_network
     volumes:
-      - snappymail_data:/snappymail/data
+      # Utilizando a variável de ambiente para o mapeamento local
+      - ${DATA}:/var/www/snappymail/data
     environment:
       - TZ=Europe/Lisbon
-      # Limite de upload de anexos (ex: 50MB)
-      - PHP_UPLOAD_MAX_FILESIZE=50M
-      - PHP_POST_MAX_SIZE=50M
-    # A porta interna padrão é a 8888
+      - UPLOAD_MAX_SIZE=50M
+      - MEMORY_LIMIT=256M
+    # Porta interna padrão desta imagem
     expose:
-      - "8888"
+      - "80"
 
 networks:
   web_network:
     external: true
-
-volumes:
-  snappymail_data:
