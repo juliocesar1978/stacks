@@ -14,7 +14,7 @@ services:
       - MEMORY_LIMIT=256M
     # Porta interna padrão desta imagem
     expose:
-      - "80"
+      - "80:80"
 
 networks:
   web_network:
