@@ -3,8 +3,6 @@ services:
     image: lscr.io/linuxserver/rainloop:latest
     container_name: rainloop
     restart: always
-    networks:
-      - web_network
     environment:
       - PUID=1000
       - PGID=1000
@@ -17,8 +15,10 @@ services:
     # Se quiseres testar logo, acede a http://IP-DA-ORACLE:8888
     ports:
       - "8888:80"
+    networks:
+      - web_network
+    restart: always
 
 networks:
   web_network:
-    name: web_network
-    driver: bridge
+    external: true
