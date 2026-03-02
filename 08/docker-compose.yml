@@ -1,17 +1,18 @@
 services:
-  rainloop:
-    image: rainloop/rainloop:latest
-    container_name: rainloop
+  snappymail:
+    image: lscr.io/linuxserver/snappymail:latest
+    container_name: snappymail
     restart: always
-    networks:
-      - web_network
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Lisbon
     volumes:
-      - ${DATA}:/var/www/rainloop/data
-    # Esta imagem corre na porta 80 por padrão
-    expose:
-      - "80"
+      - ${DATA}:/config
     ports:
       - "8888:80"
+    networks:
+      - web_network
 
 networks:
   web_network:
