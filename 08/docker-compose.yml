@@ -1,20 +1,18 @@
 services:
   snappymail:
-    # Esta imagem é mantida e testada especificamente para ARM64
-    image: lscr.io/linuxserver/snappymail:latest
+    image: wildbeast/snappymail:latest
     container_name: snappymail
     restart: always
     networks:
       - web_network
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=Europe/Lisbon
     volumes:
-      - ${DATA}:/config
+      - ${DATA}:/var/www/snappymail/data
+    environment:
+      - TZ=Europe/Lisbon
+    # Esta imagem costuma usar a porta 80
     expose:
       - "80"
-    # Se quiseres testar fora do NPM primeiro, descomenta as 2 linhas abaixo:
+    # Descomenta abaixo se quiseres testar direto no IP:8888
     # ports:
     #   - "8888:80"
 
