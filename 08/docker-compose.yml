@@ -1,20 +1,15 @@
 services:
   rainloop:
-    image: lscr.io/linuxserver/rainloop:latest
+    image: rainloop/rainloop:latest
     container_name: rainloop
     restart: always
     networks:
       - web_network
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=Europe/Lisbon
     volumes:
-      - ${DATA}:/config
-    # Porta interna padrão é 80, vamos expô-la para o NPM
+      - ${DATA}:/var/www/rainloop/data
+    # Esta imagem corre na porta 80 por padrão
     expose:
       - "80"
-    # Porta 8888 para teste direto pelo IP caso o NPM falhe
     ports:
       - "8888:80"
 
