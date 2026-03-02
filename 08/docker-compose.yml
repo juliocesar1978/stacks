@@ -1,12 +1,12 @@
 services:
   snappymail:
-    image: djfarrelly/snappymail:latest
+    image: ajanvier/snappymail:sha256-67ad258f91d4b8a2fe8ff7ceb543be2a81416e3e2b70ebd2c203ce2f8ba8e197
     container_name: snappymail
     restart: always
     networks:
       - web_network
     volumes:
-      - snappymail_data:/snappymail/data
+      - ${DATA}:/snappymail/data
     environment:
       - TZ=Europe/Lisbon
       # Limite de upload de anexos (ex: 50MB)
