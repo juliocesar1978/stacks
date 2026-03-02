@@ -1,21 +1,15 @@
 services:
-  snappymail:
-    image: wildbeast/snappymail:latest
-    container_name: snappymail
+  rainloop:
+    image: lscr.io/linuxserver/rainloop:latest
+    container_name: rainloop
     restart: always
     networks:
       - web_network
-    volumes:
-      - ${DATA}:/var/www/snappymail/data
     environment:
+      - PUID=1000
+      - PGID=1000
       - TZ=Europe/Lisbon
-    # Esta imagem costuma usar a porta 80
+    volumes:
+      - ${DATA}:/config
     expose:
       - "80"
-    # Descomenta abaixo se quiseres testar direto no IP:8888
-    # ports:
-    #   - "8888:80"
-
-networks:
-  web_network:
-    external: true
