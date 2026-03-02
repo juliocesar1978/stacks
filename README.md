@@ -10,6 +10,6 @@ O meu repositorio onde arquivo os ficheiros, para desplotar no portainer:<br/>
   <li><a href="./05/docker-compose.yml">05 - Immich</a></li>
   <li><a href="./06/docker-compose.yml">06 - Photoprism</a></li>
   <li><a href="./07/docker-compose.yml">07 - czkawka</a></li>
-  <li><a href="./08/docker-compose.yml">08 - snappymail</a></li>
+  <li><a href="./08/docker-compose.yml">08 - rainloop</a></li>
     
 </ul>
