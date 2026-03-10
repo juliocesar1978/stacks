@@ -1,35 +1,22 @@
 services:
-  nextcloud-db:
-    image: lscr.io/linuxserver/mariadb:latest
-    container_name: nextcloud-db
+  nextcloud-lamp:
+    image: matray/lamp:latest-php8
+    container_name: nextcloud-lamp
     restart: always
     environment:
       - PUID=1000
       - PGID=1000
+      - TZ=Europe/Lisbon
       - MYSQL_ROOT_PASSWORD=${PASSWORD}
       - MYSQL_DATABASE=nextcloud
       - MYSQL_USER=nextcloud
       - MYSQL_PASSWORD=${PASSWORD}
     volumes:
-      - ${DB_PATH}:/config
-    networks:
-      - web_network
-
-  nextcloud:
-    image: lscr.io/linuxserver/nextcloud:latest
-    container_name: nextcloud
-    restart: always
-    depends_on:
-      - nextcloud-db
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=Europe/Lisbon
-    volumes:
-      - ${DATA}:/config        # Onde ficam as configs e a app
-      - ${REMOTE}:/data        # Onde ficam os teus ficheiros (Rclone/Mega)
+      - ${DATA}:/var/www/html    # Onde colocas os ficheiros do Nextcloud
+      - ${DB_PATH}:/var/lib/mysql # Onde fica a base de dados
+      - ${REMOTE}:/data          # O teu mount do Rclone
     ports:
-      - "8081:443"             # A LinuxServer usa 443 internamente
+      - "8081:80"
     networks:
       - web_network
 
