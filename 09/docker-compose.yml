@@ -1,32 +1,31 @@
 services:
   nextcloud-db:
-    image: postgres:15-alpine
+    image: mariadb:10.11 # MariaDB é mais leve e simples de configurar que Postgres
     container_name: nextcloud-db
     restart: always
     volumes:
-      - ${DB_PATH}:/var/lib/postgresql/data
+      - ${DB_PATH}:/var/lib/mysql
     environment:
-      - POSTGRES_DB=nextcloud
-      - POSTGRES_USER=nextcloud
-      - POSTGRES_PASSWORD=${PASSWORD}
+      - MYSQL_ROOT_PASSWORD=${PASSWORD}
+      - MYSQL_PASSWORD=${PASSWORD}
+      - MYSQL_DATABASE=nextcloud
+      - MYSQL_USER=nextcloud
     networks:
       - web_network
 
   nextcloud:
-    image: nextcloud:28-apache # Versão 28 é muito estável
+    image: nextcloud:fpm-alpine # Alpine Linux + FPM = A versão mais pequena possível
     container_name: nextcloud
     restart: always
     depends_on:
       - nextcloud-db
-    environment:
-      - POSTGRES_HOST=nextcloud-db
-      - POSTGRES_DB=nextcloud
-      - POSTGRES_USER=nextcloud
-      - POSTGRES_PASSWORD=${PASSWORD}
     volumes:
       - ${DATA}:/var/www/html
-    ports:
-      - "8081:80"
+    environment:
+      - MYSQL_HOST=nextcloud-db
+      - MYSQL_DATABASE=nextcloud
+      - MYSQL_USER=nextcloud
+      - MYSQL_PASSWORD=${PASSWORD}
     networks:
       - web_network
 
