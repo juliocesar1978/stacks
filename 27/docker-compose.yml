@@ -1,0 +1,9 @@
+services:
+
+volumes:
+  n8n_data:
+    external: false
+
+networks:
+  web_network:
+    external: true
