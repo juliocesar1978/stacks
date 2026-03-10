@@ -1,31 +1,35 @@
 services:
   nextcloud-db:
-    image: mariadb:10.11 # MariaDB é mais leve e simples de configurar que Postgres
+    image: lscr.io/linuxserver/mariadb:latest
     container_name: nextcloud-db
     restart: always
-    volumes:
-      - ${DB_PATH}:/var/lib/mysql
     environment:
+      - PUID=1000
+      - PGID=1000
       - MYSQL_ROOT_PASSWORD=${PASSWORD}
-      - MYSQL_PASSWORD=${PASSWORD}
       - MYSQL_DATABASE=nextcloud
       - MYSQL_USER=nextcloud
+      - MYSQL_PASSWORD=${PASSWORD}
+    volumes:
+      - ${DB_PATH}:/config
     networks:
       - web_network
 
   nextcloud:
-    image: nextcloud:fpm-alpine # Alpine Linux + FPM = A versão mais pequena possível
+    image: lscr.io/linuxserver/nextcloud:latest
     container_name: nextcloud
     restart: always
     depends_on:
       - nextcloud-db
-    volumes:
-      - ${DATA}:/var/www/html
     environment:
-      - MYSQL_HOST=nextcloud-db
-      - MYSQL_DATABASE=nextcloud
-      - MYSQL_USER=nextcloud
-      - MYSQL_PASSWORD=${PASSWORD}
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Lisbon
+    volumes:
+      - ${DATA}:/config        # Onde ficam as configs e a app
+      - ${REMOTE}:/data        # Onde ficam os teus ficheiros (Rclone/Mega)
+    ports:
+      - "8081:443"             # A LinuxServer usa 443 internamente
     networks:
       - web_network
 
