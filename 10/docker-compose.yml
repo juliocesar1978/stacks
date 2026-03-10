@@ -1,8 +1,23 @@
 services:
-
-volumes:
-  n8n_data:
-    external: false
+  jdownloader:
+    image: jlesage/jdownloader-2:latest
+    container_name: jdownloader
+    restart: always
+    # ports:
+    #   - "5800:5800" # Podes comentar esta porta se usares apenas a App/Site
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Lisbon
+      - VNC_PASSWORD=${PASSWORD}
+      - MYJDOWNLOADER_EMAIL=${MY_EMAIL}       # O teu email do MyJDownloader
+      - MYJDOWNLOADER_PASSWORD=${MY_PASSWORD} # A tua pass do MyJDownloader
+      - MYJDOWNLOADER_DEVICE_NAME=Oracle_VM   # Nome que aparecerá na App
+    volumes:
+      - ${DATA}/jdownloader/config:/config:rw
+      - ${REMOTE}:/output:rw
+    networks:
+      - web_network
 
 networks:
   web_network:
