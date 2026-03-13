@@ -11,9 +11,9 @@ services:
     environment:
       - TZ=Europe/Lisbon
     volumes:
-      - ${DATA}:/var/www/html        # Onde vai ficar o Nextcloud
-      - ${DB_PATH}:/var/lib/mysql     # Onde vai ficar a base de dados
-      - ${REMOTE}:/mnt/rclone        # O teu mount do Rclone
+      - ${PATH_HTML}:/var/www/html        # Onde vai ficar o Nextcloud
+      - ${PATH_DB}:/var/lib/mysql     # Onde vai ficar a base de dados
+      - ${PATH_DATA}:/DATA        # O teu mount do Rclone
     ports:
       - "8081:80"
     networks:
