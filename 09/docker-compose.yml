@@ -1,20 +1,19 @@
+###############################################################################################################################
+# Como as imagens do nextcloud tem dado erros, optei por arrancar com uma versao mais leve, e correr tudo dentro do container #
+###############################################################################################################################
 services:
-  nextcloud-lamp:
-    image: matray/lamp:latest-php8
-    container_name: nextcloud-lamp
+  nextcloud-all-in-one:
+    image: ubuntu:22.04
+    container_name: nextcloud-universal
     restart: always
+    tty: true
+    stdin_open: true
     environment:
-      - PUID=1000
-      - PGID=1000
       - TZ=Europe/Lisbon
-      - MYSQL_ROOT_PASSWORD=${PASSWORD}
-      - MYSQL_DATABASE=nextcloud
-      - MYSQL_USER=nextcloud
-      - MYSQL_PASSWORD=${PASSWORD}
     volumes:
-      - ${DATA}:/var/www/html    # Onde colocas os ficheiros do Nextcloud
-      - ${DB_PATH}:/var/lib/mysql # Onde fica a base de dados
-      - ${REMOTE}:/data          # O teu mount do Rclone
+      - ${DATA}:/var/www/html        # Onde vai ficar o Nextcloud
+      - ${DB_PATH}:/var/lib/mysql     # Onde vai ficar a base de dados
+      - ${REMOTE}:/mnt/rclone        # O teu mount do Rclone
     ports:
       - "8081:80"
     networks:
