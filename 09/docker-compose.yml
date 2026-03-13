@@ -2,18 +2,22 @@
 # Como as imagens do nextcloud tem dado erros, optei por arrancar com uma versao mais leve, e correr tudo dentro do container #
 ###############################################################################################################################
 services:
-  nextcloud-all-in-one:
+  nextcloud-universal:
     image: ubuntu:22.04
     container_name: nextcloud-universal
     restart: always
     tty: true
     stdin_open: true
+    # O entrypoint garante que os serviços sobem automaticamente
+    entrypoint: /bin/bash -c "/start.sh"
     environment:
       - TZ=Europe/Lisbon
     volumes:
-      - ${PATH_HTML}:/var/www/html        # Onde vai ficar o Nextcloud
-      - ${PATH_DB}:/var/lib/mysql     # Onde vai ficar a base de dados
-      - ${PATH_DATA}:/DATA        # O teu mount do Rclone
+      - ${PATH_HTML}:/var/www/html        # Código do Nextcloud
+      - ${PATH_DB}:/var/lib/mysql         # Dados do MariaDB
+      - ${PATH_DATA}:/DATA                # O teu Mount do Rclone (Partilha)
+      # Mapeamos o script de arranque para fora para ser persistente
+      - ${PATH_HTML}/start.sh:/start.sh   
     ports:
       - "8081:80"
     networks:
