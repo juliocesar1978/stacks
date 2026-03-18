@@ -1,8 +1,48 @@
 services:
+  espocrm-db:
+    image: mariadb:10.11
+    container_name: espocrm-db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    volumes:
+      - ${PATH_ESPO_MYSQL}:/var/lib/mysql
+    networks:
+      - web_network
 
-volumes:
-  n8n_data:
-    external: false
+  espocrm:
+    image: espocrm/espocrm
+    container_name: espocrm
+    restart: always
+    environment:
+      ESPOCRM_DATABASE_HOST: espocrm-db
+      ESPOCRM_DATABASE_USER: ${MYSQL_USER}
+      ESPOCRM_DATABASE_PASSWORD: ${MYSQL_PASSWORD}
+      ESPOCRM_DATABASE_NAME: ${MYSQL_DATABASE}
+      # URL que vais usar no Nginx Proxy Manager
+      ESPOCRM_SITE_URL: https://crm.jc78mr79po16jo22.pt 
+    volumes:
+      - ${PATH_ESPO_DATA}:/var/www/html
+    depends_on:
+      - espocrm-db
+    networks:
+      - web_network
+
+  # O EspoCRM precisa de um "Daemon" para correr os Workflows/Cron jobs
+  espocrm-daemon:
+    image: espocrm/espocrm
+    container_name: espocrm-daemon
+    restart: always
+    command: php cron.php
+    volumes:
+      - ${PATH_ESPO_DATA}:/var/www/html
+    depends_on:
+      - espocrm
+    networks:
+      - web_network
 
 networks:
   web_network:
